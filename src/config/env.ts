@@ -1,5 +1,11 @@
 import { Secret } from "jsonwebtoken";
 
 export const PORT: number = Number(process.env.PORT) || 3000;
-export const JWT_SECRET: Secret = process.env.JWT_SECRET || "secret";
-export const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || "1d";
+
+export const SALT_ROUNDS: number = Number(process.env.SALT_ROUNDS) || 10;
+
+export const ACCESS_TOKEN_SECRET: Secret = process.env.ACCESS_TOKEN_SECRET || "secret";
+export const ACCESS_TOKEN_EXPIRES_IN: string = process.env.ACCESS_TOKEN_EXPIRES_IN || "10m";
+
+export const REFRESH_TOKEN_SECRET: Secret = process.env.REFRESH_TOKEN_SECRET || "verysecure";
+export const REFRESH_TOKEN_EXPIRES_IN: string = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";

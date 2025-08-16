@@ -23,3 +23,16 @@ export async function GetUserByEmail(email: string) {
     return user;
 }
 
+export async function GetUserById(id: number) {
+
+    const user = await prisma.user.findFirst({
+        omit: {
+            password: true
+        },
+        where: { id }
+    });
+
+    return user;
+}
+
+
