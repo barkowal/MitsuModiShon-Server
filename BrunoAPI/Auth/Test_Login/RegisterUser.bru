@@ -1,0 +1,29 @@
+meta {
+  name: RegisterUser
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{local}}:3000/api/v1/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"Chris",
+    "email": "{{uniqueEmail}}",
+    "password":"passsword"
+  }
+}
+
+script:pre-request {
+  const rndNum = Math.floor(Math.random() * 9999) + 1;
+  let email = "mail_" + (rndNum).toString() + "@mail.com";
+  bru.setVar("uniqueEmail", email);
+}
+
+settings {
+  encodeUrl: true
+}

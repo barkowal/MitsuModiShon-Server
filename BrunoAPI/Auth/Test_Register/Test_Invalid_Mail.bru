@@ -1,0 +1,28 @@
+meta {
+  name: Test_Invalid_Mail
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{local}}:3000/api/v1/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"Chris",
+    "email": "wrongmail",
+    "password":"passsword"
+  }
+}
+
+assert {
+  res.status: eq 422
+  res.body: isJson
+}
+
+settings {
+  encodeUrl: true
+}

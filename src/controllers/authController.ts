@@ -44,7 +44,7 @@ export function handleLogoutUser(req: Request, res: Response, next: NextFunction
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) {
-        return;
+        return res.status(401).json({ message: "Unauthorized." });
     }
 
     logoutUser(refreshToken).then(
@@ -52,7 +52,7 @@ export function handleLogoutUser(req: Request, res: Response, next: NextFunction
             res.clearCookie("accessToken");
             res.clearCookie("refreshToken");
 
-            return res.status(201).json({
+            return res.status(200).json({
                 successs: true,
                 message: "Logged out successfully.",
                 data: {

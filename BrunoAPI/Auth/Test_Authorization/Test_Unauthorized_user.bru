@@ -1,0 +1,25 @@
+meta {
+  name: Test_Unauthorized_user
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{local}}:3000/api/v1/auth/1
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 401
+  res.body: isJson
+}
+
+script:pre-request {
+  const jar = bru.cookies.jar();
+  jar.clear();
+}
+
+settings {
+  encodeUrl: true
+}

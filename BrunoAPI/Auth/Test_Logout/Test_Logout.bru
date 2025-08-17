@@ -1,0 +1,19 @@
+meta {
+  name: Test_Logout
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{local}}:3000/api/v1/auth/logout
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+}
