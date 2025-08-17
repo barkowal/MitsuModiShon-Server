@@ -24,6 +24,16 @@ export function parseDuration(duration: string) {
                 break;
         }
     }
-
     return totalMilliseconds;
 }
+
+export function getFileExtension(mimeType: string): string | null {
+    const mimeTypeMap: { [key: string]: string } = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "application/json": "json",
+    };
+
+    return mimeTypeMap[mimeType] || null;
+}
+

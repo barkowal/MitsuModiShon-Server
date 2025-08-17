@@ -15,17 +15,30 @@ datasource db {
 }
 
 model User {
-  id            Int        @id @default(autoincrement())
-  username      String
-  email         String     @unique
-  password      String
-  created_at    DateTime   @default(now())
+  id             Int              @id @default(autoincrement())
+  username       String
+  email          String           @unique
+  password       String
+  created_at     DateTime         @default(now())
+  refresh_tokens Refresh_Token[]
+  objects        Object3D[]
 }
 
 model Refresh_Token{
   id          Int          @id @default(autoincrement())
   token       String       @unique
-  user_id     Int
   expires_at  DateTime
   created_at  DateTime     @default(now())
+  user        User         @relation(fields: [user_id], references: [id] )
+  user_id     Int
+}
+
+model Object3D{
+  id             Int          @id @default(autoincrement())
+  name           String
+  data_filename  String
+  img_filename   String
+  is_public      Boolean      @default(false)
+  account        User         @relation(fields: [account_id], references: [id] )
+  account_id     Int
 }

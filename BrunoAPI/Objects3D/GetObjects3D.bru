@@ -1,0 +1,15 @@
+meta {
+  name: GetObjects3D
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{local}}:3000/api/v1/objects3D/public
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
