@@ -1,3 +1,6 @@
+import { IMAGE_URL_SECRET, IMAGE_URL_EXPIRES_IN } from "../config/env";
+import { sign, SignOptions } from "jsonwebtoken";
+
 export function parseDuration(duration: string) {
     const regex = /(\d+)([smhd])/g;
     let totalMilliseconds = 0;
@@ -37,3 +40,13 @@ export function getFileExtension(mimeType: string): string | null {
     return mimeTypeMap[mimeType] || null;
 }
 
+export function getSignedImageURL(filename: string) {
+    const timestamp = Date.now().toString();
+    const token = sign({ timestamp: timestamp, filename: filename }, IMAGE_URL_SECRET, { expiresIn: IMAGE_URL_EXPIRES_IN } as SignOptions);
+
+    return `/${filename}?signature=${token}`;
+}
+
+export function getImagePath() {
+
+}

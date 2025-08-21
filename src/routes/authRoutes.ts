@@ -7,7 +7,7 @@ const authRouter = Router();
 
 authRouter.post("/register", handleRegisterUser);
 authRouter.post("/login", handleLoginUser);
-authRouter.delete("/logout", handleLogoutUser);
+authRouter.delete("/refresh/logout", handleLogoutUser);
 authRouter.get("/refresh", handleRefreshToken);
 authRouter.get("/:id", authorizeMiddleware, handleGetUser);
 

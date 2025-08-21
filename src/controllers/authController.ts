@@ -3,6 +3,7 @@ import { getUser, loginUser, logoutUser, refreshAccessToken, registerUser } from
 import { ErrorType } from "../types/ErrorType";
 import { parseDuration } from "../utils/utils";
 import { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from "../config/env";
+import { FULL_REQUEST_PATH } from "../utils/global";
 
 export function handleLoginUser(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
@@ -50,7 +51,7 @@ export function handleLogoutUser(req: Request, res: Response, next: NextFunction
     logoutUser(refreshToken).then(
         () => {
             res.clearCookie("accessToken");
-            res.clearCookie("refreshToken");
+            res.clearCookie("refreshToken", { path: FULL_REQUEST_PATH + "/auth/refresh", });
 
             return res.status(200).json({
                 successs: true,
@@ -67,7 +68,6 @@ export function handleLogoutUser(req: Request, res: Response, next: NextFunction
 }
 
 export function handleRefreshToken(req: Request, res: Response, next: NextFunction) {
-
 
     const refreshToken = req.cookies.refreshToken;
 
@@ -126,11 +126,14 @@ export function handleGetUser(req: Request, res: Response, next: NextFunction) {
 function sendSuccessAuthResponse(res: Response, username: string, accessToken: string, refreshToken: string, message: string) {
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
+        path: FULL_REQUEST_PATH + "/auth/refresh",
+        secure: false,
         maxAge: parseDuration(REFRESH_TOKEN_EXPIRES_IN),
     });
 
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
+        secure: false,
         maxAge: parseDuration(ACCESS_TOKEN_EXPIRES_IN),
     });
 

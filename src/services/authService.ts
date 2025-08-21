@@ -5,7 +5,8 @@ import { ErrorType } from "../types/ErrorType";
 import { genSalt, hash, compare } from "bcrypt";
 import { sign, SignOptions, verify } from "jsonwebtoken";
 import { parseDuration } from "../utils/utils";
-import { CreateRefreshToken, DeleteRefreshToken, FindUserRefreshTokens } from "../models/refreshTokenModel";
+import { CreateRefreshToken, DeleteRefreshToken, FindRefreshToken } from "../models/refreshTokenModel";
+import { randomUUID } from "crypto";
 
 export async function registerUser(userData: RegisterUserData) {
 
@@ -70,18 +71,9 @@ export async function logoutUser(refreshToken: string) {
         throw error;
     }
 
-    const userTokens = await FindUserRefreshTokens(decoded.userID);
-    let tokenID = -1;
+    const tokenID = decoded.clientID;
 
-    for (const tokenData of userTokens) {
-        const same = await compare(refreshToken, tokenData.token);
-        if (same) {
-            tokenID = tokenData.id;
-            break;
-        }
-    }
-
-    if (tokenID !== -1)
+    if (tokenID)
         await DeleteRefreshToken(tokenID);
 }
 
@@ -103,17 +95,7 @@ export async function refreshAccessToken(refreshToken: string) {
         throw error;
     }
 
-    const userTokens = await FindUserRefreshTokens(decoded.userID);
-
-    let tokenExists = false;
-
-    for (const tokenData of userTokens) {
-        const same = await compare(refreshToken, tokenData.token);
-        if (same) {
-            tokenExists = true;
-            break;
-        }
-    }
+    const tokenExists = await FindRefreshToken(decoded.clientID);
 
     if (!tokenExists) {
         const error: ErrorType = new Error("Unauthorized");
@@ -133,13 +115,14 @@ function createAccessToken(userID: number, username: string,) {
 }
 
 async function createRefreshToken(userID: number, username: string) {
-    const token = sign({ userID: userID, username: username }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN } as SignOptions);
+    const tokenID = randomUUID();
+    const token = sign({ clientID: tokenID, userID: userID, username: username }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN } as SignOptions);
 
     const hashedToken = await hash(token, SALT_ROUNDS);
 
     const expirationDate = new Date(Date.now() + parseDuration(REFRESH_TOKEN_EXPIRES_IN));
 
-    await CreateRefreshToken(userID, hashedToken, expirationDate);
+    await CreateRefreshToken(userID, tokenID, hashedToken, expirationDate);
 
     return token;
 }

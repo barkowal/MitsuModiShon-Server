@@ -8,3 +8,10 @@ export const UploadObject3DSchema = z.object({
     dataFileName: z.string(),
 });
 export type UploadObject3DData = z.infer<typeof UploadObject3DSchema>;
+
+export type Object3DShortType = {
+    name: string,
+    createdAt: Date,
+    imgPath: string,
+    username: string,
+}

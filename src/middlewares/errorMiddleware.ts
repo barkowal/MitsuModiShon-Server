@@ -23,6 +23,13 @@ function errorMiddleware(err: ErrorType, req: Request, res: Response, next: Next
             error.statusCode = 400;
         }
 
+        if (err.code === "ENOENT") {
+            console.warn(err.message);
+            const message = "No such file.";
+            error = new Error(message);
+            error.statusCode = 404;
+        }
+
         res.status(error.statusCode || 500).json({ success: false, error: error.message || "Server Error :(" });
 
     } catch (error) {

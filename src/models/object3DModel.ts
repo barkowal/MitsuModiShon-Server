@@ -15,9 +15,42 @@ export async function UploadObject3D(objectData: UploadObject3DData) {
 
 }
 
-export async function FindPublicObjects3d() {
+export async function FindPublicObjects3d(startIndex: number, pageLimit: number, searchKeyword: string) {
 
-    const objects3d = await prisma.object3D.findMany();
+    const objects3d = await prisma.$transaction([
+        prisma.object3D.findMany(
+            {
+                select: {
+                    name: true,
+                    created_at: true,
+                    img_filename: true,
+                    account: {
+                        select: { username: true }
+                    },
+                },
+                skip: startIndex,
+                take: pageLimit,
+                where: {
+                    is_public: true,
+                    name: { contains: searchKeyword }
+                },
+                orderBy: {
+                    name: "desc",
+                },
+            }
+        ),
+        prisma.object3D.count({
+            where: {
+                is_public: true,
+                name: { contains: searchKeyword },
+            }
+        }),
+    ]);
+
     return objects3d;
+}
 
+export async function GetPublicObjectsCount() {
+    const objectsCount = await prisma.object3D.count();
+    return objectsCount;
 }
