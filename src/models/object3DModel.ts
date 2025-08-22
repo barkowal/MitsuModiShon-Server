@@ -32,17 +32,17 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
                 take: pageLimit,
                 where: {
                     is_public: true,
-                    name: { contains: searchKeyword }
+                    name: { contains: searchKeyword, mode: "insensitive" }
                 },
                 orderBy: {
-                    name: "desc",
+                    name: "asc",
                 },
             }
         ),
         prisma.object3D.count({
             where: {
                 is_public: true,
-                name: { contains: searchKeyword },
+                name: { contains: searchKeyword, mode: "insensitive" },
             }
         }),
     ]);
