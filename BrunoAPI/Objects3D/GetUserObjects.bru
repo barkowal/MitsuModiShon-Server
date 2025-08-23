@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{local}}:3000/api/v1/objects3D/private?per_page=5&page=1
+  url: {{local}}:3000/api/v1/objects3D/private?per_page=5&page=1&public=false
   body: none
   auth: inherit
 }
@@ -13,6 +13,7 @@ get {
 params:query {
   per_page: 5
   page: 1
+  public: false
 }
 
 settings {

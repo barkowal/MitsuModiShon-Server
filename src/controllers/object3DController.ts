@@ -1,9 +1,10 @@
 import { NextFunction, Response, Request } from "express";
 import { ExtendedRequest } from "../types/ExtendedRequest";
 import { UploadObject3DData, UploadObject3DSchema } from "../types/Object3DTypes";
-import { getPaginatedPublicObjects3D, getPaginatedUsersObjects3D, uploadObject3D } from "../services/object3DService";
+import { getPaginatedPublicObjects3D, getPaginatedUsersObjects3D, getUsersObject3DDataFile, getPublicObject3DDataFile, uploadObject3D, deleteObject3D, patchObject3D } from "../services/object3DService";
 import { DefaultQueryParamsType } from "../types/UniversalTypes";
 import { stringToBoolean } from "../utils/utils";
+import { OBJECT3D_DATA_PATH } from "../config/env";
 
 export function handleUploadObject3D(req: ExtendedRequest, res: Response, next: NextFunction) {
 
@@ -69,6 +70,120 @@ export function handleGetPrivateObjects3D(req: ExtendedRequest, res: Response, n
                 }
             });
         }).catch((error) => { next(error); });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export function handleDownloadPublicObject3D(req: Request, res: Response, next: NextFunction) {
+    try {
+        const objectID = parseInt(req.params.id);
+
+        if (objectID === undefined) {
+            return res.status(404).json({ message: "Wrong request parameters." });
+        }
+
+        getPublicObject3DDataFile(objectID).then((objectDataFile) => {
+
+            if (objectDataFile === null) {
+                return res.status(404).json({ message: "No such object." });
+            }
+
+            const objectPath = OBJECT3D_DATA_PATH + "/" + objectDataFile.data_filename;
+            res.sendFile(objectPath, { root: (__dirname + "../../../") });
+
+        }).catch(error => {
+            next(error);
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export function handleDownloadUsersObject3D(req: ExtendedRequest, res: Response, next: NextFunction) {
+
+    try {
+        const objectID = parseInt(req.params.id);
+
+        if (objectID === undefined) {
+            return res.status(404).json({ message: "Wrong request parameters." });
+        }
+        if (req.userID === undefined) {
+            return res.status(401).json({ message: "Unauthorized." });
+        }
+
+        getUsersObject3DDataFile(objectID, req.userID).then((objectDataFile) => {
+
+            if (objectDataFile === null) {
+                return res.status(404).json({ message: "No such object." });
+            }
+
+            const objectPath = OBJECT3D_DATA_PATH + "/" + objectDataFile.data_filename;
+            res.sendFile(objectPath, { root: (__dirname + "../../../") });
+
+        }).catch(error => {
+            next(error);
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export function handleDeleteObject3D(req: ExtendedRequest, res: Response, next: NextFunction) {
+    try {
+        const objectID = parseInt(req.params.id);
+
+        if (objectID === undefined) {
+            return res.status(404).json({ message: "Wrong request parameters." });
+        }
+        if (req.userID === undefined) {
+            return res.status(401).json({ message: "Unauthorized." });
+        }
+
+        deleteObject3D(objectID, req.userID).then((response) => {
+
+            if (response === null) {
+                return res.status(404).json({ message: "No such object." });
+            }
+
+            return res.status(200).json({ success: true, message: "Deleted successfully." });
+
+        }).catch(error => {
+            next(error);
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+export function handlePatchObject3D(req: ExtendedRequest, res: Response, next: NextFunction) {
+    try {
+        const objectID = parseInt(req.params.id);
+
+        if (objectID === undefined) {
+            return res.status(404).json({ message: "Wrong request parameters." });
+        }
+        if (req.userID === undefined) {
+            return res.status(401).json({ message: "Unauthorized." });
+        }
+
+        const { name, isPublic } = req.body;
+
+        patchObject3D({ name: name, is_public: isPublic }, objectID, req.userID).then((response) => {
+
+            if (response === null) {
+                return res.status(404).json({ message: "No such object." });
+            }
+
+            return res.status(200).json({ success: true, message: "Updated successfully." });
+
+        }).catch(error => {
+            next(error);
+        });
 
     } catch (error) {
         next(error);

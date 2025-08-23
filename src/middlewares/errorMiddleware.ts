@@ -30,6 +30,14 @@ function errorMiddleware(err: ErrorType, req: Request, res: Response, next: Next
             error.statusCode = 404;
         }
 
+        // Prisma no record found
+        if (err.code === "P2025") {
+            console.warn(err.message);
+            const message = "Couldn't find object.";
+            error = new Error(message);
+            error.statusCode = 404;
+        }
+
         res.status(error.statusCode || 500).json({ success: false, error: error.message || "Server Error :(" });
 
     } catch (error) {

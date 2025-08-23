@@ -17,3 +17,9 @@ export type Object3DShortType = {
     username: string,
     isPublic?: boolean,
 }
+
+export const PatchObject3DSchema = z.object({
+    name: z.string().min(3),
+    is_public: z.boolean().default(false),
+});
+export type PatchObject3DData = z.infer<typeof PatchObject3DSchema>;

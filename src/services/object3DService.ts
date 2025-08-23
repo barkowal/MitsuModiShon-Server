@@ -1,5 +1,5 @@
-import { FindPublicObjects3d, FindUsersObjects3d, UploadObject3D } from "../models/object3DModel";
-import { Object3DShortType, UploadObject3DData } from "../types/Object3DTypes";
+import { DeleteObject3D, FindPublicObject3DDataFile, FindPublicObjects3d, FindUsersObject3DDataFile, FindUsersObjects3d, PatchObject3D, UploadObject3D } from "../models/object3DModel";
+import { Object3DShortType, PatchObject3DData, PatchObject3DSchema, UploadObject3DData } from "../types/Object3DTypes";
 import { DefaultQueryParamsType } from "../types/UniversalTypes";
 import { getSignedImageURL } from "../utils/utils";
 
@@ -33,6 +33,7 @@ export async function getPaginatedPublicObjects3D(params: DefaultQueryParamsType
             createdAt: object.created_at,
             imgPath: getSignedImageURL(object.img_filename),
             username: object.account.username,
+            isPublic: object.is_public,
         });
 
     });
@@ -92,3 +93,33 @@ export async function getPaginatedUsersObjects3D(params: DefaultQueryParamsType,
 
 }
 
+export async function getPublicObject3DDataFile(id: number) {
+
+    const object3DDataFile = await FindPublicObject3DDataFile(id);
+
+    return object3DDataFile;
+
+}
+
+export async function getUsersObject3DDataFile(id: number, userID: number) {
+
+    const object3DDataFile = await FindUsersObject3DDataFile(id, userID);
+
+    return object3DDataFile;
+}
+
+// TODO Delete img files and data files
+export async function deleteObject3D(id: number, userID: number) {
+
+    const response = await DeleteObject3D(id, userID);
+    return response;
+
+}
+
+export async function patchObject3D(updatedData: PatchObject3DData, id: number, userID: number) {
+    PatchObject3DSchema.parse(updatedData);
+
+    const response = await PatchObject3D(updatedData, id, userID);
+    return response;
+
+}

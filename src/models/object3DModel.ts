@@ -1,6 +1,6 @@
 import prisma from "../config/prismaClient";
 import { type Prisma } from "../generated/prisma";
-import { UploadObject3DData } from "../types/Object3DTypes";
+import { PatchObject3DData, UploadObject3DData } from "../types/Object3DTypes";
 
 export async function UploadObject3D(objectData: UploadObject3DData) {
 
@@ -26,6 +26,7 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
                     name: true,
                     created_at: true,
                     img_filename: true,
+                    is_public: true,
                     account: {
                         select: { username: true }
                     },
@@ -92,6 +93,62 @@ export async function FindUsersObjects3d(startIndex: number, pageLimit: number, 
 export async function GetPublicObjectsCount() {
     const objectsCount = await prisma.object3D.count();
     return objectsCount;
+}
+
+export async function FindPublicObject3DDataFile(id: number) {
+    const object3DDataFile = prisma.object3D.findUnique({
+        select: {
+            data_filename: true,
+        },
+        where: {
+            id: id,
+            is_public: true,
+        }
+    });
+
+    return object3DDataFile;
+}
+
+export async function FindUsersObject3DDataFile(id: number, userID: number) {
+    const object3DDataFile = prisma.object3D.findUnique({
+        select: {
+            data_filename: true,
+        },
+        where: {
+            id: id,
+            account_id: userID,
+        }
+    });
+
+    return object3DDataFile;
+}
+
+export async function DeleteObject3D(id: number, userID: number) {
+
+    const response = prisma.object3D.delete({
+        where: {
+            id: id,
+            account_id: userID,
+        }
+    });
+
+    return response;
+}
+
+export async function PatchObject3D(updatedData: PatchObject3DData, id: number, userID: number) {
+
+    const response = prisma.object3D.update({
+        where: {
+            id: id,
+            account_id: userID,
+        },
+        data: {
+            name: updatedData.name,
+            is_public: updatedData.is_public,
+        }
+    });
+
+    return response;
 }
 
 function getAllWhereClause(searchKeyword: string, userID: number): Prisma.Object3DWhereInput {

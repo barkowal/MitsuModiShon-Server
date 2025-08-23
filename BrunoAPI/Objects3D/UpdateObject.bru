@@ -1,0 +1,22 @@
+meta {
+  name: UpdateObject
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{local}}:3000/api/v1/objects3D/83
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"newUpdatedName",
+    "isPublic":true
+  }
+}
+
+settings {
+  encodeUrl: true
+}
