@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authorizeMiddleware from "../middlewares/authorizeMiddleware";
-import { handleGetPublicObjects3D, handleUploadObject3D } from "../controllers/object3DController";
+import { handleGetPrivateObjects3D, handleGetPublicObjects3D, handleUploadObject3D } from "../controllers/object3DController";
 import multer from "multer";
 import { getFileExtension } from "../utils/utils";
 import { BUCKET_BIN, OBJECT3D_DATA_PATH, OBJECT3D_IMAGE_PATH } from "../config/env";
@@ -33,5 +33,6 @@ object3DRouter.post("/upload", authorizeMiddleware,
     uploadObjectMiddleware.fields([{ name: "object3D", maxCount: 1 }, { name: "image", maxCount: 1 }]),
     handleUploadObject3D);
 object3DRouter.get("/public", handleGetPublicObjects3D);
+object3DRouter.get("/private", authorizeMiddleware, handleGetPrivateObjects3D);
 
 export default object3DRouter;

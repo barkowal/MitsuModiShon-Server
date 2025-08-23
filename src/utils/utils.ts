@@ -50,3 +50,8 @@ export function getSignedImageURL(filename: string) {
 export function getImagePath() {
 
 }
+
+export function stringToBoolean(str: string): boolean {
+    return str
+        .toLowerCase() === "true";
+}

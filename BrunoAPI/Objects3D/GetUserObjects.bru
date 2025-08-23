@@ -1,0 +1,20 @@
+meta {
+  name: GetUserObjects
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{local}}:3000/api/v1/objects3D/private?per_page=5&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  per_page: 5
+  page: 1
+}
+
+settings {
+  encodeUrl: true
+}
