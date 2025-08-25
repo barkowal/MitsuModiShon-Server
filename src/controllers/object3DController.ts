@@ -204,6 +204,7 @@ function parseUploadObjectRequest(req: ExtendedRequest): UploadObject3DData {
     const reqData = JSON.parse(req.body.objectData);
     const name: string = reqData.name;
     const isPublic: boolean = reqData.is_public;
+    const isAnimated: boolean = reqData.is_animated;
 
     const object3DData = {
         name: name,
@@ -211,6 +212,7 @@ function parseUploadObjectRequest(req: ExtendedRequest): UploadObject3DData {
         accountID: userID,
         imageName: imgName,
         dataFileName: dataFileName,
+        is_animated: isAnimated,
     };
 
     UploadObject3DSchema.parse(object3DData);
@@ -223,6 +225,7 @@ function getRequestParameters(req: Request): DefaultQueryParamsType {
     let pageLimit = 10;
     let searchKeyword = "";
     let isPublic = undefined;
+    let isAnimated = undefined;
     if (req.query.page)
         page = parseInt(req.query.page as string);
     if (req.query.per_page)
@@ -231,10 +234,12 @@ function getRequestParameters(req: Request): DefaultQueryParamsType {
         searchKeyword = req.query.search as string;
     if (req.query.public)
         isPublic = stringToBoolean(req.query.public as string);
+    if (req.query.animated)
+        isAnimated = stringToBoolean(req.query.animated as string);
 
     if (isNaN(page) || isNaN(pageLimit)) {
         throw new Error("Invalid Query parameters!");
     }
 
-    return { page: page, pageLimit: pageLimit, searchKeyword: searchKeyword, public: isPublic };
+    return { page: page, pageLimit: pageLimit, searchKeyword: searchKeyword, public: isPublic, animated: isAnimated };
 }

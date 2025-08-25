@@ -7,6 +7,7 @@ import cors from "cors";
 import object3DRouter from "./routes/object3DRoutes";
 import { FULL_REQUEST_PATH } from "./utils/global";
 import imageRouter from "./routes/imageRoutes";
+import sceneRouter from "./routes/sceneRoutes";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cors(corsOptions));
 
 app.use(FULL_REQUEST_PATH + "/auth", authRouter);
 app.use(FULL_REQUEST_PATH + "/objects3D", object3DRouter);
+app.use(FULL_REQUEST_PATH + "/scene", sceneRouter);
 app.use(FULL_REQUEST_PATH + "/image", imageRouter);
 
 app.get("/", (req: Request, res: Response) => {

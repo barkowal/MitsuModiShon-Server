@@ -15,7 +15,7 @@ export async function getPaginatedPublicObjects3D(params: DefaultQueryParamsType
     const startIndex = (params.page - 1) * params.pageLimit;
     const endIndex = params.page * params.pageLimit;
 
-    const objects3D = await FindPublicObjects3d(startIndex, params.pageLimit, params.searchKeyword.toLowerCase());
+    const objects3D = await FindPublicObjects3d(startIndex, params.pageLimit, params.searchKeyword.toLowerCase(), params.animated);
     const objectsCount = objects3D[1];
 
     const lastPage = Math.ceil(objectsCount / params.pageLimit);
@@ -34,6 +34,7 @@ export async function getPaginatedPublicObjects3D(params: DefaultQueryParamsType
             imgPath: getSignedImageURL(object.img_filename),
             username: object.account.username,
             isPublic: object.is_public,
+            isAnimated: object.is_animated,
         });
 
     });
@@ -56,7 +57,7 @@ export async function getPaginatedUsersObjects3D(params: DefaultQueryParamsType,
     const startIndex = (params.page - 1) * params.pageLimit;
     const endIndex = params.page * params.pageLimit;
 
-    const objects3D = await FindUsersObjects3d(startIndex, params.pageLimit, params.searchKeyword.toLowerCase(), userID, params.public);
+    const objects3D = await FindUsersObjects3d(startIndex, params.pageLimit, params.searchKeyword.toLowerCase(), userID, params.public, params.animated);
     const objectsCount = objects3D[1];
 
     const lastPage = Math.ceil(objectsCount / params.pageLimit);
@@ -75,6 +76,7 @@ export async function getPaginatedUsersObjects3D(params: DefaultQueryParamsType,
             imgPath: getSignedImageURL(object.img_filename),
             username: object.account.username,
             isPublic: object.is_public,
+            isAnimated: object.is_animated,
         });
 
     });

@@ -3,4 +3,5 @@ export type DefaultQueryParamsType = {
     pageLimit: number,
     searchKeyword: string,
     public?: boolean,
+    animated?: boolean,
 }

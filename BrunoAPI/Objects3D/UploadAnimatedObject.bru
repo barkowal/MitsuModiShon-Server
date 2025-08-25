@@ -1,0 +1,21 @@
+meta {
+  name: UploadAnimatedObject
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{local}}:3000/api/v1/objects3D/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  object3D: @file(/home/mangostan/Downloads/animated.json)
+  image: @file(/home/mangostan/Downloads/render.png)
+  objectData: {"name":"animatedobj","is_public":true,"is_animated":true}
+}
+
+settings {
+  encodeUrl: true
+}

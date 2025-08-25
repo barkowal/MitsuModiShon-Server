@@ -6,6 +6,7 @@ export const UploadObject3DSchema = z.object({
     accountID: z.number(),
     imageName: z.string(),
     dataFileName: z.string(),
+    is_animated: z.boolean().default(false),
 });
 export type UploadObject3DData = z.infer<typeof UploadObject3DSchema>;
 
@@ -16,6 +17,7 @@ export type Object3DShortType = {
     imgPath: string,
     username: string,
     isPublic?: boolean,
+    isAnimated?: boolean,
 }
 
 export const PatchObject3DSchema = z.object({

@@ -1,5 +1,5 @@
 import prisma from "../config/prismaClient";
-import { type Prisma } from "../generated/prisma";
+import { Prisma } from "../generated/prisma";
 import { PatchObject3DData, UploadObject3DData } from "../types/Object3DTypes";
 
 export async function UploadObject3D(objectData: UploadObject3DData) {
@@ -7,16 +7,17 @@ export async function UploadObject3D(objectData: UploadObject3DData) {
     await prisma.object3D.create({
         data: {
             name: objectData.name,
-            is_public: objectData.is_public,
+            is_public: objectData.is_public ?? false,
             img_filename: objectData.imageName,
             data_filename: objectData.dataFileName,
             account_id: objectData.accountID,
+            is_animated: objectData.is_animated ?? false,
         }
     });
 
 }
 
-export async function FindPublicObjects3d(startIndex: number, pageLimit: number, searchKeyword: string) {
+export async function FindPublicObjects3d(startIndex: number, pageLimit: number, searchKeyword: string, animated: boolean | undefined) {
 
     const objects3d = await prisma.$transaction([
         prisma.object3D.findMany(
@@ -27,6 +28,7 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
                     created_at: true,
                     img_filename: true,
                     is_public: true,
+                    is_animated: true,
                     account: {
                         select: { username: true }
                     },
@@ -35,7 +37,8 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
                 take: pageLimit,
                 where: {
                     is_public: true,
-                    name: { contains: searchKeyword, mode: "insensitive" }
+                    name: { contains: searchKeyword, mode: "insensitive" },
+                    is_animated: animated ?? Prisma.skip, // TODO at time of writing this there was a bug in prisma, check if it's resolved
                 },
                 orderBy: {
                     name: "asc",
@@ -46,6 +49,7 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
             where: {
                 is_public: true,
                 name: { contains: searchKeyword, mode: "insensitive" },
+                is_animated: animated ?? Prisma.skip,
             }
         }),
     ]);
@@ -53,13 +57,7 @@ export async function FindPublicObjects3d(startIndex: number, pageLimit: number,
     return objects3d;
 }
 
-export async function FindUsersObjects3d(startIndex: number, pageLimit: number, searchKeyword: string, userID: number, showPublic: boolean | undefined) {
-
-    let whereClause: Prisma.Object3DWhereInput;
-    if (showPublic === undefined) whereClause = getAllWhereClause(searchKeyword, userID);
-    else if (showPublic === true) whereClause = getPublicWhereClause(searchKeyword, userID);
-    else whereClause = getPrivateWhereClause(searchKeyword, userID);
-
+export async function FindUsersObjects3d(startIndex: number, pageLimit: number, searchKeyword: string, userID: number, showPublic: boolean | undefined, animated: boolean | undefined) {
 
     const objects3d = await prisma.$transaction([
         prisma.object3D.findMany(
@@ -70,20 +68,32 @@ export async function FindUsersObjects3d(startIndex: number, pageLimit: number, 
                     created_at: true,
                     img_filename: true,
                     is_public: true,
+                    is_animated: true,
                     account: {
                         select: { username: true }
                     },
                 },
                 skip: startIndex,
                 take: pageLimit,
-                where: whereClause,
+                where:
+                {
+                    name: { contains: searchKeyword, mode: "insensitive" },
+                    account_id: userID,
+                    is_public: showPublic ?? Prisma.skip,
+                    is_animated: animated ?? Prisma.skip,
+                },
                 orderBy: {
                     name: "asc",
                 },
             }
         ),
         prisma.object3D.count({
-            where: whereClause
+            where: {
+                name: { contains: searchKeyword, mode: "insensitive" },
+                account_id: userID,
+                is_public: showPublic ?? Prisma.skip,
+                is_animated: animated ?? Prisma.skip,
+            },
         }),
     ]);
 
@@ -151,23 +161,3 @@ export async function PatchObject3D(updatedData: PatchObject3DData, id: number, 
     return response;
 }
 
-function getAllWhereClause(searchKeyword: string, userID: number): Prisma.Object3DWhereInput {
-    return {
-        name: { contains: searchKeyword, mode: "insensitive" },
-        account_id: userID,
-    };
-}
-function getPrivateWhereClause(searchKeyword: string, userID: number): Prisma.Object3DWhereInput {
-    return {
-        name: { contains: searchKeyword, mode: "insensitive" },
-        account_id: userID,
-        is_public: false,
-    };
-}
-function getPublicWhereClause(searchKeyword: string, userID: number): Prisma.Object3DWhereInput {
-    return {
-        name: { contains: searchKeyword, mode: "insensitive" },
-        account_id: userID,
-        is_public: true,
-    };
-}
