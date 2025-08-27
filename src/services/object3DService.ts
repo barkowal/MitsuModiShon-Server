@@ -1,6 +1,5 @@
 import { DeleteObject3D, FindPublicObject3DDataFile, FindPublicObjects3d, FindUsersObject3DDataFile, FindUsersObjects3d, PatchObject3D, UploadObject3D } from "../models/object3DModel";
-import { Object3DShortType, PatchObject3DData, PatchObject3DSchema, UploadObject3DData } from "../types/Object3DTypes";
-import { DefaultQueryParamsType } from "../types/UniversalTypes";
+import { Object3DQueryParamsType, Object3DShortType, PatchObject3DData, PatchObject3DSchema, UploadObject3DData } from "../types/Object3DTypes";
 import { getSignedImageURL } from "../utils/utils";
 
 
@@ -10,7 +9,7 @@ export async function uploadObject3D(objectData: UploadObject3DData) {
 
 }
 
-export async function getPaginatedPublicObjects3D(params: DefaultQueryParamsType) {
+export async function getPaginatedPublicObjects3D(params: Object3DQueryParamsType) {
 
     const startIndex = (params.page - 1) * params.pageLimit;
     const endIndex = params.page * params.pageLimit;
@@ -53,7 +52,7 @@ export async function getPaginatedPublicObjects3D(params: DefaultQueryParamsType
 
 }
 
-export async function getPaginatedUsersObjects3D(params: DefaultQueryParamsType, userID: number) {
+export async function getPaginatedUsersObjects3D(params: Object3DQueryParamsType, userID: number) {
     const startIndex = (params.page - 1) * params.pageLimit;
     const endIndex = params.page * params.pageLimit;
 

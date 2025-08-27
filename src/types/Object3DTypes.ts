@@ -25,3 +25,11 @@ export const PatchObject3DSchema = z.object({
     is_public: z.boolean().default(false),
 });
 export type PatchObject3DData = z.infer<typeof PatchObject3DSchema>;
+
+export type Object3DQueryParamsType = {
+    page: number,
+    pageLimit: number,
+    searchKeyword: string,
+    public?: boolean,
+    animated?: boolean,
+}

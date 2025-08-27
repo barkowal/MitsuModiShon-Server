@@ -1,0 +1,21 @@
+meta {
+  name: UploadScene
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{local}}:3000/api/v1/animationScene/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  scene: @file(/home/mangostan/Downloads/redBGRotateScene.json)
+  image: @file(/home/mangostan/Downloads/redSceneImg.png)
+  sceneData: {"name":"redScene","is_public":true,"duration":120}
+}
+
+settings {
+  encodeUrl: true
+}

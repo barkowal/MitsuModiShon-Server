@@ -16,13 +16,14 @@ datasource db {
 }
 
 model User {
-  id             Int              @id @default(autoincrement())
-  username       String
-  email          String           @unique
-  password       String
-  created_at     DateTime         @default(now())
-  refresh_tokens Refresh_Token[]
-  objects        Object3D[]
+  id                Int               @id @default(autoincrement())
+  username          String
+  email             String            @unique
+  password          String
+  created_at        DateTime          @default(now())
+  refresh_tokens    Refresh_Token[]
+  objects           Object3D[]
+  animation_scenes  Animation_Scene[]
 }
 
 model Refresh_Token{
@@ -41,6 +42,18 @@ model Object3D{
   img_filename   String
   is_public      Boolean      @default(false)
   is_animated    Boolean      @default(false)
+  created_at     DateTime     @default(now())
+  account        User         @relation(fields: [account_id], references: [id] )
+  account_id     Int
+}
+
+model Animation_Scene{
+  id             Int          @id @default(autoincrement())
+  name           String
+  duration       Int
+  data_filename  String
+  img_filename   String
+  is_public      Boolean      @default(false)
   created_at     DateTime     @default(now())
   account        User         @relation(fields: [account_id], references: [id] )
   account_id     Int
