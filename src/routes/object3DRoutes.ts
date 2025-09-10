@@ -4,12 +4,25 @@ import { handleDownloadUsersObject3D, handleDownloadPublicObject3D, handleGetPri
 import multer from "multer";
 import { getFileExtension } from "../utils/utils";
 import { BUCKET_BIN, OBJECT3D_DATA_PATH, OBJECT3D_IMAGE_PATH } from "../config/env";
+import fs from "fs";
 
 const object3DRouter = Router();
 const uploadObjectMiddleware = multer({
 
     storage: multer.diskStorage({
         destination: function(req, file, callback) {
+
+            if (!fs.existsSync(OBJECT3D_DATA_PATH)) {
+                fs.mkdirSync(OBJECT3D_DATA_PATH, { recursive: true });
+            }
+
+            if (!fs.existsSync(OBJECT3D_IMAGE_PATH)) {
+                fs.mkdirSync(OBJECT3D_IMAGE_PATH, { recursive: true });
+            }
+
+            if (!fs.existsSync(BUCKET_BIN)) {
+                fs.mkdirSync(BUCKET_BIN, { recursive: true });
+            }
 
             if (file.mimetype === "application/json") {
                 callback(null, OBJECT3D_DATA_PATH);
