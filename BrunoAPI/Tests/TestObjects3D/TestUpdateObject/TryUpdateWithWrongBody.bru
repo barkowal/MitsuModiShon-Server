@@ -1,0 +1,33 @@
+meta {
+  name: TryUpdateWithWrongBody
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{local}}:3000/api/v1/objects3D/{{existingObjectID}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "wrongName":"newUpdatedName",
+    "isMine":true
+  }
+}
+
+assert {
+  res.status: eq 422
+}
+
+tests {
+  test("should return error", function () {
+    let res_error = res.getBody().error;
+    expect(res_error).to.be.string;
+  });
+}
+
+settings {
+  encodeUrl: true
+}

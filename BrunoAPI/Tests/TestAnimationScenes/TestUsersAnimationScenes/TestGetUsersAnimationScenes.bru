@@ -1,0 +1,55 @@
+meta {
+  name: TestGetUsersAnimationScenes
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{local}}:3000/api/v1/animationScene/private?public=false
+  body: none
+  auth: inherit
+}
+
+params:query {
+  public: false
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  let existingID = res.getBody().data.result.scenes[0].id;
+  bru.setVar("existingObjectID", existingID);
+  
+  let image_path = res.getBody().data.result.scenes[0].imgPath;
+  bru.setVar("signed_image_path", image_path);
+}
+
+tests {
+  test("should return success", function () {
+    let res_success = res.getBody().success;
+    expect(res_success).to.equal(true);
+  });
+  
+  test("should return correct message", function () {
+    let message = res.getBody().message;
+    expect(message).to.equal("Found animation scenes successfully.");
+  });
+  
+  test("should return only user objects", function () {
+    let res_objects = res.getBody().data.result.scenes;
+    let other_user = false;
+    for(let obj of res_objects){
+      if(obj.username !== "Test_Account"){
+        other_user = true;
+        break;
+      }
+    }
+    expect(other_user).to.be.false;
+  });
+}
+
+settings {
+  encodeUrl: true
+}

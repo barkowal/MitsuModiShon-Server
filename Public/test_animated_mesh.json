@@ -1,0 +1,249 @@
+{
+  "metadata": {
+    "version": 4.7,
+    "type": "Object",
+    "generator": "Object3D.toJSON"
+  },
+  "geometries": [
+    {
+      "uuid": "cbf2e341-2a65-45e4-9323-630af21833b1",
+      "type": "BufferGeometry",
+      "data": {
+        "attributes": {
+          "barycentric": {
+            "itemSize": 3,
+            "type": "Float32Array",
+            "array": [
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "normalized": false
+          },
+          "color": {
+            "itemSize": 3,
+            "type": "Float32Array",
+            "array": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "normalized": false
+          },
+          "position": {
+            "itemSize": 3,
+            "type": "Float32Array",
+            "array": [
+              -0.5,
+              0.5,
+              0,
+              0.5,
+              0.5,
+              0,
+              -0.5,
+              -0.5,
+              0,
+              0.5,
+              -0.5,
+              0
+            ],
+            "normalized": false
+          },
+          "normal": {
+            "itemSize": 3,
+            "type": "Float32Array",
+            "array": [
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            "normalized": false
+          },
+          "uv": {
+            "itemSize": 2,
+            "type": "Float32Array",
+            "array": [
+              0,
+              1,
+              1,
+              1,
+              0,
+              0,
+              1,
+              0
+            ],
+            "normalized": false
+          }
+        },
+        "index": {
+          "type": "Uint16Array",
+          "array": [
+            0,
+            2,
+            1,
+            2,
+            3,
+            1
+          ]
+        },
+        "boundingSphere": {
+          "radius": 0.7071067811865476,
+          "center": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "materials": [
+    {
+      "uuid": "9da4927d-b719-48ee-a797-7902a71abaf2",
+      "type": "MeshBasicMaterial",
+      "color": 8791847,
+      "envMapRotation": [
+        0,
+        0,
+        0,
+        "XYZ"
+      ],
+      "reflectivity": 1,
+      "refractionRatio": 0.98,
+      "side": 2,
+      "vertexColors": true,
+      "blendColor": 0
+    }
+  ],
+  "object": {
+    "uuid": "9c5e6b7f-84b0-4357-898f-701a6a40f681",
+    "type": "ModellingMesh",
+    "name": "Mesh",
+    "renderOrder": 4,
+    "userData": {
+      "animationObject": "d6296c37-05f4-4800-854c-b9dbfaf0dadc"
+    },
+    "layers": 7,
+    "matrix": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0.00012000000286102303,
+      -1.5270000000000001,
+      1
+    ],
+    "up": [
+      0,
+      1,
+      0
+    ],
+    "geometry": "cbf2e341-2a65-45e4-9323-630af21833b1",
+    "material": "9da4927d-b719-48ee-a797-7902a71abaf2"
+  },
+  "animation": [
+    {
+      "uuid": "d6296c37-05f4-4800-854c-b9dbfaf0dadc",
+      "loop": true,
+      "positionAnimation": {
+        "keyframes": [
+          0,
+          40,
+          80
+        ],
+        "values": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "interpolations": [
+          0,
+          0,
+          0
+        ]
+      },
+      "scaleAnimation": {
+        "keyframes": [],
+        "values": [],
+        "interpolations": []
+      },
+      "rotationAnimation": {
+        "keyframes": [],
+        "values": [],
+        "interpolations": []
+      }
+    }
+  ]
+}

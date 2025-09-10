@@ -14,7 +14,7 @@ export function handleUploadObject3D(req: ExtendedRequest, res: Response, next: 
         uploadObject3D(objectData).then(() => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Uploaded object3D successfully.",
                 data: {
                 }
@@ -36,7 +36,7 @@ export function handleGetPublicObjects3D(req: Request, res: Response, next: Next
         getPaginatedPublicObjects3D(reqOptions).then((result) => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Found objects successfully.",
                 data: {
                     result
@@ -62,7 +62,7 @@ export function handleGetPrivateObjects3D(req: ExtendedRequest, res: Response, n
         getPaginatedUsersObjects3D(reqOptions, req.userID).then((result) => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Found objects successfully.",
                 data: {
                     result

@@ -1,0 +1,27 @@
+meta {
+  name: TestDownloadUserSceneData
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{local}}:3000/api/v1/animationScene/download/users/{{existingObjectID}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return json file", function () {
+    let res_header = res.getHeader("content-type");
+  
+    expect(res_header).to.contain("application/json");
+  });
+}
+
+settings {
+  encodeUrl: true
+}

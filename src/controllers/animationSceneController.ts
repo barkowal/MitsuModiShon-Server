@@ -13,7 +13,7 @@ export function handleUploadAnimationScene(req: ExtendedRequest, res: Response, 
         uploadAnimationScene(sceneData).then(() => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Uploaded animation scene successfully.",
                 data: {
                 }
@@ -34,7 +34,7 @@ export function handleGetPublicAnimationScenes(req: ExtendedRequest, res: Respon
         getPaginatedPublicAnimationScenes(reqOptions).then((result) => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Found animation scenes successfully.",
                 data: {
                     result
@@ -59,7 +59,7 @@ export function handleGetUsersAnimationScenes(req: ExtendedRequest, res: Respons
         getPaginatedUsersAnimationScenes(reqOptions, req.userID).then((result) => {
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Found animation scenes successfully.",
                 data: {
                     result

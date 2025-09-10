@@ -54,7 +54,7 @@ export function handleLogoutUser(req: Request, res: Response, next: NextFunction
             res.clearCookie("refreshToken", { path: FULL_REQUEST_PATH + "/auth/refresh", });
 
             return res.status(200).json({
-                successs: true,
+                success: true,
                 message: "Logged out successfully.",
                 data: {
                 }
@@ -85,7 +85,7 @@ export function handleRefreshToken(req: Request, res: Response, next: NextFuncti
             });
 
             return res.status(201).json({
-                successs: true,
+                success: true,
                 message: "Successfully created new access token.",
                 data: {
                 }
@@ -110,7 +110,7 @@ export function handleGetUser(req: Request, res: Response, next: NextFunction) {
     getUser(id).then(
         (user) => {
             res.status(201).json({
-                successs: true,
+                success: true,
                 message: "User successfully found.",
                 data: {
                     user: user,
@@ -138,7 +138,7 @@ function sendSuccessAuthResponse(res: Response, username: string, accessToken: s
     });
 
     res.status(201).json({
-        successs: true,
+        success: true,
         message: message,
         data: {
             username: username,

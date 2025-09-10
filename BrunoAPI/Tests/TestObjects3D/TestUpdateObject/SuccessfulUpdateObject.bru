@@ -1,0 +1,33 @@
+meta {
+  name: SuccessfulUpdateObject
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{local}}:3000/api/v1/objects3D/{{existingObjectID}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"newUpdatedName",
+    "isPublic":true
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return success", function () {
+    let res_success = res.getBody().success;
+    expect(res_success).to.equal(true);
+  });
+}
+
+settings {
+  encodeUrl: true
+}

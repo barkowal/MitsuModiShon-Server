@@ -1,0 +1,25 @@
+meta {
+  name: UploadToDelete
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{local}}:3000/api/v1/objects3D/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  object3D: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_mesh.json)
+  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_image.png)
+  objectData: {"name":"test_object","is_public":true}
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+}

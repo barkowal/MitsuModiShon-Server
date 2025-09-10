@@ -12,11 +12,8 @@ get {
 
 tests {
   test("should return access token in cookies", function () {
-    
-      const accessToken = res.getHeader('set-cookie')[0];
-     console.log(accessToken);
+    const accessToken = res.getHeader('set-cookie')[0];
     expect(accessToken).to.not.be.null;
-   
   });
 }
 

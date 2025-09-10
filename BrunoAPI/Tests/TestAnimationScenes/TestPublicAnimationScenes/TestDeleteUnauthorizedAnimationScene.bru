@@ -1,0 +1,19 @@
+meta {
+  name: TestDeleteUnauthorizedAnimationScene
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{local}}:3000/api/v1/animationScene/{{existingObjectID}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 401
+}
+
+settings {
+  encodeUrl: true
+}

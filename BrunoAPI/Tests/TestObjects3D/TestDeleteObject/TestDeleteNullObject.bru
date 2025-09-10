@@ -1,0 +1,19 @@
+meta {
+  name: TestDeleteNullObject
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{local}}:3000/api/v1/objects3D/-1
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 404
+}
+
+settings {
+  encodeUrl: true
+}

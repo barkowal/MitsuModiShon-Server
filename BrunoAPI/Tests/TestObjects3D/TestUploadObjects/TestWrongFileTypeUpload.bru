@@ -1,0 +1,32 @@
+meta {
+  name: TestWrongFileTypeUpload
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{local}}:3000/api/v1/objects3D/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  objectData: {"name":"test_object","is_public":true}
+  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_file.txt)
+  object3D: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_image.png)
+}
+
+assert {
+  res.status: eq 400
+}
+
+tests {
+  test("should return error", function () {
+    let res_error = res.getBody().error;
+    expect(res_error).to.be.string;
+  });
+}
+
+settings {
+  encodeUrl: true
+}

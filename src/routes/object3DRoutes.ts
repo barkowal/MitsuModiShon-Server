@@ -34,7 +34,10 @@ const uploadObjectMiddleware = multer({
                 return;
             }
 
-            callback(new Error("Invalid file type!"), BUCKET_BIN);
+            const err = new Error("Invalid file type!");
+            err.name = "FileTypeErr";
+
+            callback(err, BUCKET_BIN);
         },
         filename: function(req, file, callback) {
             callback(null, Date.now().toString() + "_file_" + file.fieldname + "." + getFileExtension(file.mimetype));

@@ -1,0 +1,37 @@
+meta {
+  name: GetAnimatedObjects
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{local}}:3000/api/v1/objects3D/public?animated=true
+  body: none
+  auth: inherit
+}
+
+params:query {
+  animated: true
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return only animated user objects", function () {
+    let res_objects = res.getBody().data.result.objects;
+    let is_static = false;
+    for(let obj of res_objects){
+      if(!obj.isAnimated){
+        is_static = true;
+        break;
+      }
+    }
+    expect(is_static).to.be.false;
+  });
+}
+
+settings {
+  encodeUrl: true
+}

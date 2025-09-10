@@ -1,0 +1,50 @@
+meta {
+  name: GetObjectsWithSearch
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{local}}:3000/api/v1/objects3D/public?per_page=1&page=1&search=test_object
+  body: none
+  auth: inherit
+}
+
+params:query {
+  per_page: 1
+  page: 1
+  search: test_object
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return success", function () {
+    let res_success = res.getBody().success;
+    expect(res_success).to.equal(true);
+  });
+  
+  test("should return correct message", function () {
+    let message = res.getBody().message;
+    expect(message).to.equal("Found objects successfully.");
+  });
+  
+  test("should return only objects with test_object name", function () {
+    let res_objects = res.getBody().data.result.objects;
+    let different_name = false;
+    for(let obj of res_objects){
+      if(obj.name !== "test_object"){
+        different_name = true;
+        break;
+      }
+    }
+    expect(different_name).to.be.false;
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+}

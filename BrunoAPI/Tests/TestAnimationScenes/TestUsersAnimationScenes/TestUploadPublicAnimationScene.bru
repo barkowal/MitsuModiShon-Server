@@ -1,0 +1,29 @@
+meta {
+  name: TestUploadPublicAnimationScene
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{local}}:3000/api/v1/animationScene/upload
+  body: multipartForm
+  auth: inherit
+}
+
+body:json {
+  {"name":"redScene","is_public":true,"duration":120}
+}
+
+body:multipart-form {
+  sceneData: {"name":"test_scene","is_public":true,"duration":120}
+  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_scene_render.png)
+  scene: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_scene.json)
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+}

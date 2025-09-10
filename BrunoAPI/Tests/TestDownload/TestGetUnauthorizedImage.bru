@@ -1,0 +1,19 @@
+meta {
+  name: TestGetUnauthorizedImage
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{local}}:3000/api/v1/image/file_image
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 400
+}
+
+settings {
+  encodeUrl: true
+}

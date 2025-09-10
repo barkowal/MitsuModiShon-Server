@@ -1,0 +1,53 @@
+meta {
+  name: TestGetPublicAnimationScenesPaginated
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{local}}:3000/api/v1/animationScene/public?per_page=5&page=1
+  body: none
+  auth: inherit
+}
+
+params:query {
+  per_page: 5
+  page: 1
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("should return success", function () {
+    let res_success = res.getBody().success;
+    expect(res_success).to.equal(true);
+  });
+  
+  test("should return 1 as previous page", function () {
+    let prev_page = res.getBody().data.result.pageData.prevPage;
+    expect(prev_page).to.equal(1);
+  });
+  
+  test("should return page limit equal to 5", function () {
+    let page_limit = res.getBody().data.result.pageData.limit;
+    expect(page_limit).to.equal(5);
+  });
+  
+  test("should return only public objects", function () {
+    let res_objects = res.getBody().data.result.scenes;
+    let not_public = false;
+    for(let obj of res_objects){
+      if(obj.isPublic === false){
+        not_public = true;
+        break;
+      }
+    }
+    expect(not_public).to.be.false;
+  });
+}
+
+settings {
+  encodeUrl: true
+}

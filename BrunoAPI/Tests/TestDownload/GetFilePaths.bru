@@ -1,0 +1,27 @@
+meta {
+  name: GetFilePaths
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{local}}:3000/api/v1/objects3D/public?per_page=10
+  body: none
+  auth: inherit
+}
+
+params:query {
+  per_page: 10
+}
+
+script:post-response {
+  let image_path = res.getBody().data.result.objects[0].imgPath;
+  bru.setVar("signed_image_path", image_path);
+  
+  let existingID = res.getBody().data.result.objects[0].id;
+  bru.setVar("existingObjectID", existingID);
+}
+
+settings {
+  encodeUrl: true
+}

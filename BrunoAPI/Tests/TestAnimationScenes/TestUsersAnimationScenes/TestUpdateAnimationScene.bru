@@ -1,0 +1,26 @@
+meta {
+  name: TestUpdateAnimationScene
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{local}}:3000/api/v1/animationScene/{{existingObjectID}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name":"updated_test_scene",
+    "isPublic":true
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+settings {
+  encodeUrl: true
+}

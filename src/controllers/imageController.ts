@@ -25,12 +25,17 @@ function verifyImageRequest(req: Request) {
     const signature = req.query.signature as string;
 
     if (signature === undefined) {
-        throw new Error("You cannot access this image!");
+        const err = new Error("You cannot access this image!");
+        err.name = "NoImageSignature";
+        throw err;
     }
 
     const decoded = verify(signature, IMAGE_URL_SECRET);
 
-    if (typeof decoded !== "object" && decoded === null)
-        throw new Error("You cannot access this image!");
+    if (typeof decoded !== "object" && decoded === null){
+        const err = new Error("You cannot access this image!");
+        err.name = "ErrorImageVerify";
+        throw err;
+    }
 
 }

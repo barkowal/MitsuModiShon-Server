@@ -30,6 +30,26 @@ function errorMiddleware(err: ErrorType, req: Request, res: Response, next: Next
             error.statusCode = 404;
         }
 
+        // multer uplaod file type error
+        if(err.name === "FileTypeErr"){
+            console.warn(err.message);
+            const message = "Invalid file type!";
+            error = new Error(message);
+            error.statusCode = 400;
+        }
+
+        if(err.name === "NoImageSignature"){
+            console.warn(err.message);
+            error = new Error(err.message);
+            error.statusCode = 400;
+        }
+
+        if(err.name === "ErrorImageVerify"){
+            console.warn(err.message);
+            error = new Error(err.message);
+            error.statusCode = 400;
+        }
+
         // Prisma no record found
         if (err.code === "P2025") {
             console.warn(err.message);
