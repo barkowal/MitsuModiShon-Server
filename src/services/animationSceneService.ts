@@ -1,6 +1,7 @@
-import { CreateAnimationScene, DeleteAnimationScene, FindPublicAnimationSceneDataFile, FindPublicAnimationScenes, FindUsersAnimationSceneDataFile, FindUsersAnimationScenes, PatchAnimationScene } from "../models/animationSceneModel";
+import { OBJECT3D_DATA_PATH, OBJECT3D_IMAGE_PATH } from "../config/env";
+import { CreateAnimationScene, DeleteAnimationScene, FindPublicAnimationSceneDataFile, FindPublicAnimationScenes, FindUsersAnimationSceneDataFile, FindUsersAnimationScenes, GetUserAnimationSceneFileNames, PatchAnimationScene } from "../models/animationSceneModel";
 import { AnimationSceneQueryParamsType, AnimationSceneResultType, PatchAnimationSceneData, PatchAnimationSceneSchema, UploadAnimationSceneData } from "../types/AnimationSceneTypes";
-import { getSignedImageURL } from "../utils/utils";
+import { deleteFile, getSignedImageURL } from "../utils/utils";
 
 export async function uploadAnimationScene(sceneData: UploadAnimationSceneData) {
 
@@ -31,6 +32,19 @@ export async function getUsersAnimationSceneDataFile(id: number, userID: number)
 }
 
 export async function deleteAnimationScene(id: number, userID: number) {
+
+    const files = await GetUserAnimationSceneFileNames(id, userID);
+
+    if (!files) {
+
+        const err = new Error(`Animation scene: ${id} not found`);
+        err.name = "NoAnimationSceneError";
+        throw err;
+
+    }
+
+    await deleteFile(OBJECT3D_DATA_PATH + "/" + files.data_filename);
+    await deleteFile(OBJECT3D_IMAGE_PATH + "/" + files.img_filename);
 
     const response = await DeleteAnimationScene(id, userID);
     return response;

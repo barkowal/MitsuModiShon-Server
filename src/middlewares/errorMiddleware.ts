@@ -31,23 +31,35 @@ function errorMiddleware(err: ErrorType, req: Request, res: Response, next: Next
         }
 
         // multer uplaod file type error
-        if(err.name === "FileTypeErr"){
+        if (err.name === "FileTypeErr") {
             console.warn(err.message);
             const message = "Invalid file type!";
             error = new Error(message);
             error.statusCode = 400;
         }
 
-        if(err.name === "NoImageSignature"){
+        if (err.name === "NoImageSignature") {
             console.warn(err.message);
             error = new Error(err.message);
             error.statusCode = 400;
         }
 
-        if(err.name === "ErrorImageVerify"){
+        if (err.name === "ErrorImageVerify") {
             console.warn(err.message);
             error = new Error(err.message);
             error.statusCode = 400;
+        }
+
+        if (err.name === "NoObject3DError") {
+            console.warn(err.message);
+            error = new Error(err.message);
+            error.statusCode = 404;
+        }
+
+        if (err.name === "NoAnimationSceneError") {
+            console.warn(err.message);
+            error = new Error(err.message);
+            error.statusCode = 404;
         }
 
         // Prisma no record found

@@ -129,6 +129,23 @@ export async function FindUsersAnimationSceneDataFile(sceneID: number, userID: n
     return sceneDataFile;
 }
 
+export async function GetUserAnimationSceneFileNames(sceneID: number, userID: number) {
+
+    const response = prisma.animation_Scene.findUnique({
+        select: {
+            data_filename: true,
+            img_filename: true,
+        },
+        where: {
+            id: sceneID,
+            account_id: userID,
+        }
+    });
+
+    return response;
+
+}
+
 export async function DeleteAnimationScene(sceneID: number, userID: number) {
 
     const response = prisma.animation_Scene.delete({

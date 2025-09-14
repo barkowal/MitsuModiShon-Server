@@ -145,6 +145,22 @@ export async function DeleteObject3D(id: number, userID: number) {
     return response;
 }
 
+export async function GetUserObject3DFileNames(id: number, userID: number) {
+
+    const response = prisma.object3D.findUnique({
+        select: {
+            data_filename: true,
+            img_filename: true,
+        },
+        where: {
+            id: id,
+            account_id: userID,
+        }
+    });
+
+    return response;
+}
+
 export async function PatchObject3D(updatedData: PatchObject3DData, id: number, userID: number) {
 
     const response = prisma.object3D.update({

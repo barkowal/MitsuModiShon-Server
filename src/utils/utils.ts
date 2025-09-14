@@ -1,5 +1,6 @@
 import { IMAGE_URL_SECRET, IMAGE_URL_EXPIRES_IN } from "../config/env";
 import { sign, SignOptions } from "jsonwebtoken";
+import fs from "fs/promises";
 
 export function parseDuration(duration: string) {
     const regex = /(\d+)([smhd])/g;
@@ -54,4 +55,8 @@ export function getImagePath() {
 export function stringToBoolean(str: string): boolean {
     return str
         .toLowerCase() === "true";
+}
+
+export function deleteFile(filePath: string) {
+    return fs.unlink(filePath);
 }

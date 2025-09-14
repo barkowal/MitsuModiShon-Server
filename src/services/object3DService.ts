@@ -1,6 +1,7 @@
-import { DeleteObject3D, FindPublicObject3DDataFile, FindPublicObjects3d, FindUsersObject3DDataFile, FindUsersObjects3d, PatchObject3D, UploadObject3D } from "../models/object3DModel";
+import { OBJECT3D_DATA_PATH, OBJECT3D_IMAGE_PATH } from "../config/env";
+import { DeleteObject3D, FindPublicObject3DDataFile, FindPublicObjects3d, FindUsersObject3DDataFile, FindUsersObjects3d, GetUserObject3DFileNames, PatchObject3D, UploadObject3D } from "../models/object3DModel";
 import { Object3DQueryParamsType, Object3DShortType, PatchObject3DData, PatchObject3DSchema, UploadObject3DData } from "../types/Object3DTypes";
-import { getSignedImageURL } from "../utils/utils";
+import { deleteFile, getSignedImageURL } from "../utils/utils";
 
 
 export async function uploadObject3D(objectData: UploadObject3DData) {
@@ -109,8 +110,20 @@ export async function getUsersObject3DDataFile(id: number, userID: number) {
     return object3DDataFile;
 }
 
-// TODO Delete img files and data files
 export async function deleteObject3D(id: number, userID: number) {
+
+    const files = await GetUserObject3DFileNames(id, userID);
+
+    if (!files) {
+
+        const err = new Error(`Object ${id} not found`);
+        err.name = "NoObject3DError";
+        throw err;
+
+    }
+
+    await deleteFile(OBJECT3D_DATA_PATH + "/" + files.data_filename);
+    await deleteFile(OBJECT3D_IMAGE_PATH + "/" + files.img_filename);
 
     const response = await DeleteObject3D(id, userID);
     return response;
