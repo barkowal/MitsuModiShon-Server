@@ -32,7 +32,7 @@ function verifyImageRequest(req: Request) {
 
     const decoded = verify(signature, IMAGE_URL_SECRET);
 
-    if (typeof decoded !== "object" && decoded === null){
+    if (typeof decoded !== "object" || decoded === null) {
         const err = new Error("You cannot access this image!");
         err.name = "ErrorImageVerify";
         throw err;
