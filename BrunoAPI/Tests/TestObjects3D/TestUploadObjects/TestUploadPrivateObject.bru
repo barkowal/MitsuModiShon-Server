@@ -12,10 +12,11 @@ post {
 
 body:multipart-form {
   objectData: {"name":"private_test_object","is_public":false}
-  object3D: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_mesh.json)
-  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_image.png)
+  object3D: @file(testFiles/test_mesh.json)
+  image: @file(testFiles/test_image.png)
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

@@ -11,8 +11,8 @@ post {
 }
 
 body:multipart-form {
-  object3D: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_mesh.json)
-  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_image.png)
+  object3D: @file(testFiles/test_mesh.json)
+  image: @file(testFiles/test_image.png)
   objectData: {"name":"test_object","is_public":true}
 }
 
@@ -22,4 +22,5 @@ assert {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

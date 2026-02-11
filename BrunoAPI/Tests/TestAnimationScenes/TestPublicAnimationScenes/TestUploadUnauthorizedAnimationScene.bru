@@ -12,8 +12,8 @@ post {
 
 body:multipart-form {
   sceneData: {"name":"test_scene","is_public":true,"duration":120}
-  scene: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_scene.json)
-  image: @file(/home/mujonoga/Programming/web/MitsuModiShon-Server/Public/test_scene_render.png)
+  scene: @file(testFiles/test_scene.json)
+  image: @file(testFiles/test_scene_render.png)
 }
 
 assert {
@@ -22,4 +22,5 @@ assert {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

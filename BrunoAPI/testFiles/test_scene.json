@@ -1,0 +1,281 @@
+{
+  "sceneColor": 328965,
+  "cameraObject": {
+    "matrix": {
+      "elements": [
+        0.4,
+        0,
+        0,
+        0,
+        0,
+        0.4,
+        0,
+        0,
+        0,
+        0,
+        0.4,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    }
+  },
+  "animationLoopSettings": {
+    "fps": 24,
+    "loop": true,
+    "duration": 80
+  },
+  "sceneObjects": [
+    {
+      "metadata": {
+        "version": 4.7,
+        "type": "Object",
+        "generator": "Object3D.toJSON"
+      },
+      "geometries": [
+        {
+          "uuid": "2c537a56-f187-4971-8ada-91a6fed71230",
+          "type": "BufferGeometry",
+          "data": {
+            "attributes": {
+              "barycentric": {
+                "itemSize": 3,
+                "type": "Float32Array",
+                "array": [
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  1,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "normalized": false
+              },
+              "color": {
+                "itemSize": 3,
+                "type": "Float32Array",
+                "array": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "normalized": false
+              },
+              "position": {
+                "itemSize": 3,
+                "type": "Float32Array",
+                "array": [
+                  -0.5,
+                  0.5,
+                  0,
+                  0.5,
+                  0.5,
+                  0,
+                  -0.5,
+                  -0.5,
+                  0,
+                  0.5,
+                  -0.5,
+                  0
+                ],
+                "normalized": false
+              },
+              "normal": {
+                "itemSize": 3,
+                "type": "Float32Array",
+                "array": [
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1
+                ],
+                "normalized": false
+              },
+              "uv": {
+                "itemSize": 2,
+                "type": "Float32Array",
+                "array": [
+                  0,
+                  1,
+                  1,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0
+                ],
+                "normalized": false
+              }
+            },
+            "index": {
+              "type": "Uint16Array",
+              "array": [
+                0,
+                2,
+                1,
+                2,
+                3,
+                1
+              ]
+            },
+            "boundingSphere": {
+              "radius": 0.7071067811865476,
+              "center": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        }
+      ],
+      "materials": [
+        {
+          "uuid": "ec3abd35-a349-411f-bc4e-2570bc2c4aa0",
+          "type": "MeshBasicMaterial",
+          "color": 10855845,
+          "envMapRotation": [
+            0,
+            0,
+            0,
+            "XYZ"
+          ],
+          "reflectivity": 1,
+          "refractionRatio": 0.98,
+          "side": 2,
+          "vertexColors": true,
+          "blendColor": 0
+        }
+      ],
+      "object": {
+        "uuid": "21ebfd66-7469-4037-ad84-1266f484417c",
+        "type": "ModellingMesh",
+        "name": "Mesh",
+        "renderOrder": 4,
+        "userData": {
+          "animationObject": "05ad8418-ec31-42b2-9728-821efe723980"
+        },
+        "layers": 7,
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "up": [
+          0,
+          1,
+          0
+        ],
+        "geometry": "2c537a56-f187-4971-8ada-91a6fed71230",
+        "material": "ec3abd35-a349-411f-bc4e-2570bc2c4aa0"
+      },
+      "animation": [
+        {
+          "uuid": "05ad8418-ec31-42b2-9728-821efe723980",
+          "loop": true,
+          "positionAnimation": {
+            "keyframes": [
+              0,
+              40,
+              80
+            ],
+            "values": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                2.342,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "interpolations": [
+              0,
+              0,
+              0
+            ]
+          },
+          "scaleAnimation": {
+            "keyframes": [],
+            "values": [],
+            "interpolations": []
+          },
+          "rotationAnimation": {
+            "keyframes": [],
+            "values": [],
+            "interpolations": []
+          }
+        }
+      ]
+    }
+  ]
+}
